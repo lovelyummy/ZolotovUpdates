@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta  # Добавлен timedelta
 from telegram import Bot
 from dotenv import load_dotenv
 import os
@@ -61,7 +61,9 @@ async def process_transactions(transactions, bot):
 
     # Дата транзакции
     utime = latest_transaction["utime"]
-    transaction_date = datetime.fromtimestamp(utime, tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    transaction_date_utc = datetime.fromtimestamp(utime, tz=timezone.utc)
+    transaction_date_msk = transaction_date_utc + timedelta(hours=3)  # Добавляем 3 часа для MSK
+    transaction_date = transaction_date_msk.strftime("%Y-%m-%d %H:%M:%S")
 
     # Извлекаем данные из in_msg
     in_msg = latest_transaction["in_msg"]
