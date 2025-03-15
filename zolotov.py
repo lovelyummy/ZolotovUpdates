@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
 import re
-from datetime import datetime, timezone, timedelta  # Добавлен timedelta
+from datetime import datetime, timezone, timedelta
 from telegram import Bot
 from dotenv import load_dotenv
 import os
@@ -85,7 +85,7 @@ async def process_transactions(transactions, bot):
         # Проверяем, содержит ли текст "telegram stars"
         if "telegram stars" in text.lower():
             # Используем регулярное выражение для извлечения числа перед "Telegram Stars"
-            match = re.search(r"(\d+)\s*Telegram Stars", text)
+            match = re.search(r"(\d+)\s*(?:Prepaid\s*)?Telegram Stars", text, re.IGNORECASE)
             if match:
                 stars_amount = int(match.group(1))  # Извлекаем число из найденного совпадения
             else:
